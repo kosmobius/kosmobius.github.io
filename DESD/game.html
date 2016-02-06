@@ -1,0 +1,54 @@
+<html>
+
+<canvas id="gameCanvas" height="800" width="400"></canvas>
+<script>
+
+var canvas;
+var canvasContext;
+
+var gTime; //game time
+
+gameCount = 0 //starting count of player's games made
+playerAge = 0 //starting count of player's age
+
+const deathAge = 90 //age at which player dies and death screen appears
+
+var showDeathScreen = false; 
+
+function calculateMousePos(evt) {
+	//verify what this needs to be as the mouse is controlling a circle not a rectangle
+	var rect = canvas.getBoundingClientRect();
+	var root = document.documentElement;
+	var mouseX = evt.clientX - rect.left - root.scrollLeft;
+	var mouseY = evt.clientY - rect.top - root.scrollTop;
+	return {
+		x:mouseX,
+		y:mouseY
+	}
+}
+
+window.onload = function () {
+	console.log("test game starting");
+	canvas = document.getElementById('gameCanvas');
+	canvasContext = canvas.getContext('2d');
+
+	var framesPerSecond = 30
+
+	setInterval(function() {
+		//moveEverything();
+		//drawEverything();
+	}, 1000/framesPerSecond);
+
+	canvas.addEventListener('mousemove',
+		function(evt) {
+			var mousePos = calculateMousePos(evt);
+			//enter mouse controls here
+		});
+
+}
+
+
+
+
+</script>
+</html>
