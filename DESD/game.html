@@ -1,54 +1,113 @@
 <html>
 
-<canvas id="gameCanvas" height="800" width="400"></canvas>
+<head>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+<title>Dev'Er Say Die!</title>
+
+<script type="application/javascript" src="http://code.jquery.com/jquery.min.js">
+</script>
+
+<style>
+    body{ background-color: lightblue; }
+    #canvas{border:1px solid red;}
+</style>
+
 <script>
 
-var canvas;
-var canvasContext;
+var canvas=document.getElementById("canvas");
+var ctx=canvas.getContext("2d");
 
-var gTime; //game time
-
-gameCount = 0 //starting count of player's games made
-playerAge = 0 //starting count of player's age
-
-const deathAge = 90 //age at which player dies and death screen appears
-
+var showStartScreen = true;
 var showDeathScreen = false; 
 
-function calculateMousePos(evt) {
-	//verify what this needs to be as the mouse is controlling a circle not a rectangle
-	var rect = canvas.getBoundingClientRect();
-	var root = document.documentElement;
-	var mouseX = evt.clientX - rect.left - root.scrollLeft;
-	var mouseY = evt.clientY - rect.top - root.scrollTop;
-	return {
-		x:mouseX,
-		y:mouseY
-	}
-}
+function drawEverything() {
+	console.log('Draw')
 
-window.onload = function () {
-	console.log("test game starting");
-	canvas = document.getElementById('gameCanvas');
-	canvasContext = canvas.getContext('2d');
+	//draw gamespace boundaries
+	colorRect(0,0,canvas.width,canvas.height, 'white');
 
-	var framesPerSecond = 30
+	//draw desk
+	colorRect(350,548,deskWidth,deskHeight, 'black');	
 
-	setInterval(function() {
-		//moveEverything();
-		//drawEverything();
-	}, 1000/framesPerSecond);
-
-	canvas.addEventListener('mousemove',
-		function(evt) {
-			var mousePos = calculateMousePos(evt);
-			//enter mouse controls here
-		});
+	//draw player
+	colorCirc(playerX, playerY, 20, 2, 'blue');
 
 }
+ 
+
+ //draw functions
+function drawPlayer(centerX, centerY, radius, eAngle, drawColor) {
+	var playerX = 400, playerY = 526;
+	ctx.fillStyle = drawColor; 
+	ctx.beginPath(); 
+	ctx.arc(centerX, centerY, radius, 0,Math.PI*eAngle, true); 
+	ctx.fill(); 
+}
+
+function drawDesk(leftX,topY, width,height, drawColor) {
+	var deskWidth = 100;
+	var deskHeight = 50;
+	ctx.fillStyle	= drawColor;
+	ctx.fillRect(leftX,topY, width,height);
+}
+    
+/*
+function colorFocus(centerX, centerY, radius, sAngle, eAngle, drawColor) {
+	function toRadians(deg) {
+    	return deg * Math.PI / 180
+	}    
+    ctx.fillStyle = drawColor;
+    ctx.beginPath();
+	ctx.moveTo(centerX,centerY);
+    ctx.arc(centerX,centerY,radius,sAngle,toRadians(eAngle),false);
+    ctx.lineTo(centerX,centerY);
+    ctx.closePath();
+    ctx.fill();
+}
+*/
+
+$(function(){
+
+	
+
+//    var canvas=document.getElementById("canvas");
+//    var ctx=canvas.getContext("2d");
+    var canvasOffset=$("#canvas").offset();
+    var offsetX=canvasOffset.left;
+    var offsetY=canvasOffset.top;
+    ctx.lineWidth=3;
+    ctx.strokeStyle="blue";
+
+    var cx=canvas.width/2;
+    var cy=canvas.height/2;
+    var radius=75;
 
 
+    function drawArc(cx,cy,mouseX,mouseY){
+
+        var dx=mouseX-cx;
+        var dy=mouseY-cy;
+        var angle=Math.atan2(dy,dx);
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        ctx.beginPath();
+        ctx.arc(cx,cy,radius,angle,angle+Math.PI);
+        ctx.stroke();
+
+    }
+
+    function handleMouseMove(e){
+      mouseX=parseInt(e.clientX-offsetX);
+      mouseY=parseInt(e.clientY-offsetY);
+      drawArc(cx,cy,mouseX,mouseY);
+    }
+
+    $("#canvas").mousemove(function(e){handleMouseMove(e);});
 
 
+}); // end $(function(){});
 </script>
+
+<body>
+	<canvas id="canvas" height=600 width=800></canvas>
+</body>
 </html>
