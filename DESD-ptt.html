@@ -8,18 +8,22 @@
 <script>
 
 //distraction 
+var distX;
+var distY = 0;
 var distSpeedX = 3;
 var distSpeedY = 5;
 var distWidth = 40;
 var distHeight = 40;
-var distX = Math.random()*800;
-var distY = 0;
+var spawnRate = 1500;
+var lastSpawn = -1;
+var distList = [];
 
 //player
 var playerWidth = 100;
 var playerHeight = 50;
-var playerX = 800/2-playerWidth/2;
+var playerX = 350;//800/2-playerWidth/2;
 var playerY = 600-playerHeight;
+var hitCount = 0;
 
 window.onload = function() { //onload functions
 	console.log("window loaded"); //console test
@@ -28,54 +32,79 @@ window.onload = function() { //onload functions
 	
 	var framesPerSecond = 30; //set fps, convert refresh to 30 fps (1000/30)
 	setInterval(function() {
-			moveEverything(); //run move code 
-			drawEverything(); //run draw code
-	}, 1000/framesPerSecond);
+				animate()
+	}, 1000/framesPerSecond); //establish fps
 
 }
 
-function moveEverything() {
+function spawnRandomObject(){
 
-	distAim(); //init distraction aim behavior
-
-	distY += distSpeedY; //move distraction down the screen at Y speed
-
-	//when the distraction's midpoint cross the top edge of the player, reset distraction at a random X coord at the top of the screen
-	if ((distY+distHeight/2) > playerY) {
-		distY = 0;
-		distX = Math.random()*800;
-	}
-
-	//console.log(distX) //log current X coordinate of distraction
+    var t;
+    if(Math.random()<0.50){t="green";}else{t="blue";}
+    var distBlock={
+        type:t, 
+        x:Math.random()*canvas.width,
+        y:distY,
+    }
+    distList.push(distBlock);
 }
 
-function drawEverything() {
 
-	//redraw canvas
+
+function animate() {
+
+	var time=Date.now();
+
+    if(time>(lastSpawn+spawnRate)){
+    lastSpawn=time;
+    spawnRandomObject();
+    }
+
+	//wipe canvas
 	colorRect(0,0,canvas.width,canvas.height, 'white');	
 
-	//target
+	//draw middle line for measuring
+	colorRect(399,0, 2,canvas.height, 'black');
+
+	//moving objects
+	for(var i=0; i < distList.length; i++ ){
+		var distBlock = distList[i];
+		distBlock.y+=distSpeedY;
+
+
+		if (distBlock.x + distWidth < playerX || distBlock.x > playerX + playerWidth ) {
+			if (distBlock.x + 30 < playerX+playerWidth/2) {
+				distBlock.x += distSpeedX;
+			} else if (distBlock.x + 10 > playerX+playerWidth/2) {
+				distBlock.x -= distSpeedX;
+			}
+		}	
+
+		/*
+		if (distBlock.x + distWidth/2 !== playerX + playerWidth/2) {
+			if ( distBlock.x < playerX  ) {
+			distBlock.x += distSpeedX;
+			} else if ( distBlock.x + distWidth > playerX + playerHeight ) {
+				distBlock.x -=  distSpeedX;
+			} 
+		} 
+		*/
+
+
+
+
+		if ( distBlock.y+distHeight/2 === playerY ) {
+			console.log("hit!");
+			hitCount++;
+		}
+
+		colorRect(distBlock.x,distBlock.y, distWidth,distHeight, distBlock.type);
+
+	} //end for loop
+
+	// draw player
 	colorRect(playerX,playerY, playerWidth,playerHeight, 'red');
 
-	//draw distraction
-	colorRect(distX,distY, distWidth,distHeight, 'black');
-
-	//draw middle line for measuring
-	//colorRect(399,0, 2,canvas.height, 'black');
-
-}
-
-//manages distraction aiming behavior
-function distAim() {
-
-	if (distX > playerX && distX+distWidth < playerX+playerHeight) {
-		console.log("on target");
-		return;
-	} else if ( distX < playerX) {
-		distX += distSpeedX;
-	} else if ( distX+distWidth > playerX+playerHeight) {
-		distX -= distSpeedX;
-	}
 }
 
 //how to draw rectangles
