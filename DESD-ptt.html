@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head><link rel="stylesheet" type="text/css" href="DESD-styles.css"></head>
+<body>
+
+<canvas id="gameCanvas" width="800" height="600"></canvas>
+
+<script>
+
+//distraction 
+var distSpeedX = 3;
+var distSpeedY = 5;
+var distWidth = 40;
+var distHeight = 40;
+var distX = Math.random()*800;
+var distY = 0;
+
+//player
+var playerWidth = 100;
+var playerHeight = 50;
+var playerX = 800/2-playerWidth/2;
+var playerY = 600-playerHeight;
+
+window.onload = function() { //onload functions
+	console.log("window loaded"); //console test
+	canvas = document.getElementById('gameCanvas'); //link doc canvas to js canvas
+	canvasContext = canvas.getContext('2d'); //????? !!research!!
+	
+	var framesPerSecond = 30; //set fps, convert refresh to 30 fps (1000/30)
+	setInterval(function() {
+			moveEverything(); //run move code 
+			drawEverything(); //run draw code
+	}, 1000/framesPerSecond);
+
+}
+
+function moveEverything() {
+
+	distAim(); //init distraction aim behavior
+
+	distY += distSpeedY; //move distraction down the screen at Y speed
+
+	//when the distraction's midpoint cross the top edge of the player, reset distraction at a random X coord at the top of the screen
+	if ((distY+distHeight/2) > playerY) {
+		distY = 0;
+		distX = Math.random()*800;
+	}
+
+	//console.log(distX) //log current X coordinate of distraction
+}
+
+function drawEverything() {
+
+	//redraw canvas
+	colorRect(0,0,canvas.width,canvas.height, 'white');	
+
+	//target
+	colorRect(playerX,playerY, playerWidth,playerHeight, 'red');
+
+	//draw distraction
+	colorRect(distX,distY, distWidth,distHeight, 'black');
+
+	//draw middle line for measuring
+	//colorRect(399,0, 2,canvas.height, 'black');
+
+}
+
+//manages distraction aiming behavior
+function distAim() {
+
+	if (distX > playerX && distX+distWidth < playerX+playerHeight) {
+		console.log("on target");
+		return;
+	} else if ( distX < playerX) {
+		distX += distSpeedX;
+	} else if ( distX+distWidth > playerX+playerHeight) {
+		distX -= distSpeedX;
+	}
+}
+
+//how to draw rectangles
+function colorRect(leftX,topY, width,height, drawColor) {
+	canvasContext.fillStyle	= drawColor;
+	canvasContext.fillRect(leftX,topY, width,height);
+
+}
+
+
+
+
+
+
+</script>
+</body>
+</html>
