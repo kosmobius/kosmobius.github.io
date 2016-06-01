@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+<div id="mainpage">
+	<h1>THE CALCULATOR</h1>
+	<h4>Addition Edition</h4>
+	<ol>
+		<li>
+			<div>
+				<input class="input" id="inBox1" type="number" value="">
+			</div>
+			<div class="errMsg" id="errMsg1">
+			</div>
+		</li>
+		<p>+</p>
+		<li>
+			<div>
+				<input class="input" id="inBox2" type="number" value="">
+			</div>
+			<div class="errMsg" id="errMsg2">
+			</div>
+		</li>
+		<p>=</p>
+		<li>
+			<div id="outBox">
+			</div>
+		</li>
+		<p></p>
+		<li><button onclick='runCalc()'>Calculate</button>
+			 <button onclick='clrScrn()'>Clear</button>
+		</li>
+	</ol>
+	<h6>(C) Kosmobius Design 2016</h6>
+</div>
+
+
+</body>
+
+<!--JavaScript-->
+<script>
+
+var input1;
+var input2;
+var output;
+
+console.log('ready...');
+console.log("input1: ",input1, "input2: ",input2,"output: ",output);
+
+function runCalc() {
+	console.log('runCalc');
+	addFields();
+	checkFields();
+	console.log("input1: ",input1, "input2: ",input2,"output: ",output);
+	console.log("ready...")
+}
+
+function checkFields() {
+	console.log("checkFields,","output:",output);
+	
+	if ( input1 + input2 != 0 ) {
+		document.getElementById('errMsg1').innerHTML = "";
+		document.getElementById('errMsg2').innerHTML = "";
+		document.getElementById('outBox').innerHTML = output;
+		}
+		
+	if ( input1 == 0) {
+			document.getElementById('outBox').innerHTML = "";
+			document.getElementById('errMsg1').innerHTML = "Please enter a number";
+		} 
+		
+	if ( input2 == 0 ) {
+			document.getElementById('outBox').innerHTML = "";
+			document.getElementById('errMsg2').innerHTML = "Please enter a number";
+		}
+}
+
+function addFields() {
+	console.log('addFields');
+	input1 = Number(document.getElementById('inBox1').value);
+	input2 = Number(document.getElementById('inBox2').value);
+	output = input1 + input2;
+}
+
+function clrScrn() {
+	document.getElementById('inBox1').value = "";
+	document.getElementById('inBox2').value = "";
+	document.getElementById('errMsg1').innerHTML = "";
+	document.getElementById('errMsg2').innerHTML = "";
+	document.getElementById('outBox').innerHTML = "";
+}
+
+</script>
+
+<!--CSS-->
+<style>
+body {
+	font-family: Calibri, Arial;
+}
+#mainpage {
+	border: 2px solid black;
+	height: 375px;
+	width: 400px;
+	background: lightblue;
+}
+h1 {
+	margin-left: 40px;
+	text-align: left;
+	margin-bottom: 0px;
+	text-decoration: underline;
+}
+h4 {
+	margin-top: -6px;
+	margin-left: 40px;
+	text-align: left;
+	font-style: italic;
+}
+h6 {
+	text-align: right;
+	margin: 3px;
+}
+ol {
+	list-style: none;
+}
+div {
+	position: static;
+}
+.input {
+	height: 16px;
+	width: 100px;
+	text-align: right;
+}
+.errMsg {
+	height: 20px;
+	color: red;
+}
+#outBox {
+	height: 20px;
+	width: 100px;
+	border: 2px solid black;
+	background: lightgrey;
+	text-align: right;
+	padding-right: 4px;
+}
+
+</style>
+</html>
