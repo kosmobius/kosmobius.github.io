@@ -7,7 +7,8 @@
     <body>
         <div id="mainpage">
             	<h1>FORTRESS</h1>
-            	<h4>V1.0</h4>
+            	<h4>V 0.1</h4>
+					
             <table id="mainTbl">
                 <tr>
                     <td>    <!--Computer input (1)-->
@@ -48,7 +49,7 @@
                     </td>
                 </tr>
             </table>
-            	<h6>Kosmobius Design 2016</h6>
+				<h6>Kosmobius 2016</h6>
         </div>
 
 
@@ -67,7 +68,7 @@
 
 			window.onload = function() {
 			console.log('ready...');
-			console.log("input1: " + input1, "input2: " + input2, "output: " + output, "correct: " + pCorrect, 							"tgtNum: " + tgtNum);
+			console.log("input1: " + input1, "input2: " + input2, "output: " + output, "correct: " + pCorrect, "tgtNum: " + tgtNum);
 			}();
 
 			function ansVal() {
@@ -160,7 +161,6 @@
 			function numGen() {
 				tgtNum = Math.floor((Math.random() * 100) + 1);
 				compNum = Math.floor((Math.random() * (tgtNum/3)) + 1); 
-			   console.log(tgtNum - compNum);
  			}
 
 			function nextBtn() {
@@ -200,7 +200,7 @@
             }
             #mainpage {
                 border: 2px solid black;
-                height: 375px;
+                height: 350px;
                 width: 400px;
                 background: aquamarine;
             }
@@ -221,9 +221,8 @@
             }
             h6 {
                 position: absolute;
-                bottom: 8px;
-                right: 20px;
-            }
+					 right: 90pt;
+				 }
             table {
                 border: 1px solid black;
             }
