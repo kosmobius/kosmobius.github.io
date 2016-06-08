@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+    </head>
+
+    <body>
+        <div id="mainpage">
+            	<h1>FORTRESS</h1>
+            	<h4>V 0.1</h4>
+					
+            <table id="mainTbl">
+                <tr>
+                    <td>    <!--Computer input (1)-->
+                        <div class="textArea" id="inBox1"></div>
+                        <div class="errMsg" id="errMsg1">
+                        </div>
+                    </td>
+                    <td rowspan="3" id="tgtBox">
+                    </td>
+                </tr>
+                <tr>
+                    <td>+</td>
+                </tr>
+                <tr>
+                    <td>    <!--Player input (2)-->
+                        <input class="input" id="inBox2" type="number" value="">
+                        <div class="errMsg" id="errMsg2">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>=</td>  <!--Display win/lose message-->
+                    <td rowspan="2" id="msgBox"></td>
+                </tr>
+                <tr>
+                    <td>    <!--Display player's answer-->
+                        <div class="textArea" id="outBox">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>    <!--Buttons-->
+                        <button id="submitBtn" onclick='ansVal()'>Submit</button>
+								<button onclick='nextBtn()'>Next</button>
+                        <button onclick='clrScrn()'>Reset</button>
+                    </td>   <!--Display player score-->
+                    <td id="scoreBox">
+                    </td>
+                </tr>
+            </table>
+				<h6>Kosmobius 2016</h6>
+        </div>
+
+
+        <!--JavaScript-->
+		  <script>
+		  	var input1;
+			var input2;
+			var output;
+			var compNum;
+			var tgtNum = 0;
+			var pScore = 0;
+			var pCorrect = false;
+			var winState = false;
+			const MAX_SCORE = 10;
+
+
+			window.onload = function() {
+			console.log('ready...');
+			console.log("input1: " + input1, "input2: " + input2, "output: " + output, "correct: " + pCorrect, "tgtNum: " + tgtNum);
+			}();
+
+			function ansVal() {
+				addFields();
+				
+				if (pCorrect) {
+					console.log('press next');
+				} else {
+					runCalc();
+				}
+			}
+			
+			function runCalc() {
+				console.log('-------');	
+			   console.log('runCalc');
+					
+			   addFields();
+			   checkFields();
+				
+				if (pScore == MAX_SCORE) {
+					document.getElementById('submitBtn').innerHTML = "Again!";
+					winState = true;
+					} else if ( pScore < MAX_SCORE) {
+						document.getElementById('submitBtn').innerHTML = "Submit";
+					}				
+					console.log('correct: ' + pCorrect);
+			}
+
+			function checkFields() {
+			   console.log("checkFields,", "output:", output);
+ 			  
+				var valInput = function() {
+					if (tgtNum != 0 && input1 + input2 != 0) {
+					  document.getElementById('errMsg1').innerHTML = "";
+					  document.getElementById('errMsg2').innerHTML = "";
+					  document.getElementById('outBox').innerHTML = output;
+					} else if (tgtNum == 0) {
+						document.getElementById('msgBox').innerHTML = "Press Next";
+					}
+
+					if (tgtNum != 0 && input1 == 0) {
+					  document.getElementById('outBox').innerHTML = "";
+					  document.getElementById('errMsg1').innerHTML = "Please enter a number";
+					} else if (tgtNum == 0) {
+						document.getElementById('msgBox').innerHTML = "Press Next";
+					}
+
+					if (tgtNum != 0 && input2 == 0) {
+					  document.getElementById('outBox').innerHTML = "";
+					  document.getElementById('errMsg2').innerHTML = "Please enter a number";
+					} else if (tgtNum == 0) {
+						document.getElementById('msgBox').innerHTML = "Press Next";
+					}    
+				}();
+
+
+				if (output) {
+					console.log('output');
+				
+					if (input1 + input2 == tgtNum) {
+						console.log('correct');
+						document.getElementById('msgBox').innerHTML = "Correct!";
+						pCorrect = true;
+						pScore++;
+						
+						if (pScore == MAX_SCORE) {
+							document.getElementById('msgBox').innerHTML = "Win!";
+						}
+						
+						if (pScore > MAX_SCORE) {
+							clrScrn();
+							numGen();
+							} 
+						} else if (input1 + input2 != tgtNum) {
+								console.log('incorrect');
+								document.getElementById('msgBox').innerHTML = "Incorrect!";
+							}
+				document.getElementById('scoreBox').innerHTML = "Your Score: " + pScore;
+				console.log('Player Score: ' + pScore);
+			}
+		}
+
+			function addFields() {
+			    console.log('addFields');
+			    input1 = Number(document.getElementById('inBox1').innerHTML);
+			    input2 = Number(document.getElementById('inBox2').value);
+			    output = input1 + input2;
+			}
+
+			function numGen() {
+				tgtNum = Math.floor((Math.random() * 100) + 1);
+				compNum = Math.floor((Math.random() * (tgtNum/3)) + 1); 
+ 			}
+
+			function nextBtn() {
+				numGen();
+				document.getElementById('tgtBox').innerHTML = tgtNum;
+		    	document.getElementById('inBox1').innerHTML = compNum;
+		    	document.getElementById('inBox2').value = "";
+				document.getElementById('outBox').innerHTML = "";
+				document.getElementById('msgBox').innerHTML = "";
+				document.getElementById('errMsg1').innerHTML = "";
+				document.getElementById('errMsg2').innerHTML = "";
+				pCorrect = false;
+			}
+
+			function clrScrn() {
+				 document.getElementById('inBox1').innerHTML = "";
+			    document.getElementById('inBox2').value = "";
+			    document.getElementById('errMsg1').innerHTML = "";
+			    document.getElementById('errMsg2').innerHTML = "";
+			    document.getElementById('outBox').innerHTML = "";
+				 document.getElementById('tgtBox').innerHTML = "";
+				 document.getElementById('msgBox').innerHTML = "";
+				 document.getElementById('scoreBox').innerHTML = "";
+				 tgtNum = 0;
+				 pCorrect = false;
+				 pScore = 0;
+				 console.log("input1: " + input1, "input2: " + input2, "output: " + output, "correct: " + pCorrect, "tgtNum: " + tgtNum, "pScore: " + pScore);
+				 
+			}
+			
+			</script>
+
+        <!--CSS-->
+        <style>
+            body {
+                font-family: Calibri, Arial;
+            }
+            #mainpage {
+                border: 2px solid black;
+                height: 350px;
+                width: 400px;
+                background: aquamarine;
+            }
+            #mainTbl {
+                margin-left: 40px;
+            }
+            h1 {
+                margin-left: 40px;
+                text-align: left;
+                margin-bottom: 0px;
+                text-decoration: underline;
+            }
+            h4 {
+                margin-top: -6px;
+                margin-left: 40px;
+                text-align: left;
+                font-style: italic;
+            }
+            h6 {
+					text-align: right;
+					margin-right: 2%;
+				 }
+            table {
+                border: 1px solid black;
+            }
+            td {
+                border: 1px solid black;
+                width: 150px;
+            }
+            #tgtBox {
+                border: 1px solid black;
+                height: 100px;
+                width: 100px;
+                text-align: center;
+					 font-size: 90px;
+            }
+            div {
+                position: static;
+            }
+            .input {
+                height: 16px;
+                width: 100px;
+                text-align: right;
+            }
+            .errMsg {
+                height: 20px;
+                color: red;
+            }
+				#msgBox {
+					text-align: center;
+					font-size: 30px;
+				}
+				#scoreBox {
+					text-align: center;
+				}
+            #outBox {
+                height: 20px;
+                width: 100px;
+                border: 2px solid black;
+                background: lightgrey;
+                text-align: right;
+                padding-right: 4px;
+            }
+				.textArea {
+                height: 20px;
+                width: 100px;
+                border: 2px solid black;
+                background: lightgrey;
+                text-align: right;
+                padding-right: 4px;
+            }
+				#submitBtn {
+					width: 50px;
+				}
+				
+        </style>
+    </body>
+
+</html>
