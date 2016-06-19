@@ -75,7 +75,7 @@
 				addFields();
 				
 				if (pCorrect) {
-					console.log('press next');
+					console.log('pCorrect');
 				} else {
 					runCalc();
 				}
@@ -100,6 +100,7 @@
 			function checkFields() {
 			   console.log("checkFields,", "output:", output);
  			  
+			   //field validations
 				var valInput = function() {
 					if (tgtNum != 0 && input1 + input2 != 0) {
 					  document.getElementById('errMsg1').innerHTML = "";
@@ -121,10 +122,10 @@
 					  document.getElementById('errMsg2').innerHTML = "Please enter a number";
 					} else if (tgtNum == 0) {
 						document.getElementById('msgBox').innerHTML = "Press Next";
-					}    
+					}
 				}();
 
-
+				//display correct/incorrect message
 				if (output) {
 					console.log('output');
 				
@@ -164,15 +165,20 @@
  			}
 
 			function nextBtn() {
-				numGen();
-				document.getElementById('tgtBox').innerHTML = tgtNum;
-		    	document.getElementById('inBox1').innerHTML = compNum;
-		    	document.getElementById('inBox2').value = "";
-				document.getElementById('outBox').innerHTML = "";
-				document.getElementById('msgBox').innerHTML = "";
-				document.getElementById('errMsg1').innerHTML = "";
-				document.getElementById('errMsg2').innerHTML = "";
-				pCorrect = false;
+				if (pCorrect || tgtNum == 0) {
+					numGen();
+					document.getElementById('tgtBox').innerHTML = tgtNum;
+			    	document.getElementById('inBox1').innerHTML = compNum;
+			    	document.getElementById('inBox2').value = "";
+					document.getElementById('outBox').innerHTML = "";
+					document.getElementById('msgBox').innerHTML = "";
+					document.getElementById('errMsg1').innerHTML = "";
+					document.getElementById('errMsg2').innerHTML = "";
+					console.log("pCorrect: " + pCorrect);
+					pCorrect = false;
+				} else {
+					document.getElementById('msgBox').innerHTML = "No input";
+				} 
 			}
 
 			function clrScrn() {
@@ -185,7 +191,6 @@
 				 document.getElementById('msgBox').innerHTML = "";
 				 document.getElementById('scoreBox').innerHTML = "";
 				 tgtNum = 0;
-				 pCorrect = false;
 				 pScore = 0;
 				 console.log("input1: " + input1, "input2: " + input2, "output: " + output, "correct: " + pCorrect, "tgtNum: " + tgtNum, "pScore: " + pScore);
 				 
