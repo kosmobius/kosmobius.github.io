@@ -6,15 +6,12 @@
 </head>
 <body>
 
-<div id="container_m">
-	
-	<!--//Test Section 1-->
-	
-	<div id="splash_box1"> <img id="splash_img1" src="Images/Kosmobius Mercury Logo-1.jpeg">
-	</div>
-	
-	<div id="nav_dump1">
-		<ul>
+
+	<div class="splash_box">
+		
+		<img id="splash_img1" src="Images/Kosmobius Mercury Logo-1.jpeg">
+		
+		<ul id="nav_dump1">
 			<li><a href="Calculator/Calculator-AE.html">-| calculator |-</a></li>
 			<li><a href="Calculator/Fortress.html">-| fortress game |-</a></li>
 			<p/>
@@ -23,8 +20,9 @@
 			<p/>
 			<li>-| kosmobius@gmail.com |-</li>
 		</ul>
+		
 	</div>
-</div>
+
 
 <style>
 body {
@@ -34,9 +32,10 @@ body {
 }
 #container_m {
 	height: 100%;
+	position: relative;
 }
 div {
-
+	border: 1px solid white;
 }
 
 ul {
@@ -69,21 +68,23 @@ a:active {
 	 color: red;
 }
 
-div #splash_box1 {
-
+.splash_box {
+	position: relative;
 }
 #splash_img1 {
+
 	margin: auto 25% auto 25%;
 	width: 50%;
 }
-div #nav_dump1 {
+#nav_dump1 {
+	position: absolute;
 	margin: auto 37% auto 37%;
 	width: 26%;
 	text-align: center;
 	font-size: 12pt;
 	color: white;
 	font-family: consolas, calibri, helvetica;
-}
+	}
 
 </style>
 
